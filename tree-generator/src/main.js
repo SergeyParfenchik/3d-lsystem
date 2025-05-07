@@ -6,7 +6,7 @@ import { Turtle3D } from './core/Turtle3D.js';
 import { buildBranches } from './core/MeshBuilder.js';
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0xccffde);
+scene.background = new THREE.Color(0xddffee);
 const axesHelper = new THREE.AxesHelper(5);
 scene.add(axesHelper);
 
@@ -26,6 +26,8 @@ controls.enableDamping = true;
 const light = new THREE.DirectionalLight(0xffffff, 1);
 light.position.set(5, 10, 7.5);
 scene.add(light);
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.4); // цвет и интенсивность
+scene.add(ambientLight);
 
 const axiom = 'FA';
 const rules = {

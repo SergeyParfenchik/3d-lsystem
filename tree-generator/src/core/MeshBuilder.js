@@ -4,7 +4,7 @@ export function buildBranches(path) {
     if (!path?.length) return new THREE.Group();
 
     const material = new THREE.MeshStandardMaterial({ 
-        color: 0x12af56,
+        color: 0x674f36,
         flatShading: true
     });
 
@@ -97,9 +97,47 @@ export function buildBranches(path) {
     );
     mergedGeometry.setIndex(indices);
 
-    return new THREE.Mesh(mergedGeometry, material);
+    const group = new THREE.Group();
+    const branchMesh = new THREE.Mesh(mergedGeometry, material);
+    group.add(branchMesh);
+
+    const textureLoader = new THREE.TextureLoader();
+    const leafTexture = textureLoader.load('/textures/leaf.png');
+
+    const leafGeometry = new THREE.PlaneGeometry(0.14, 0.2);
+    const leafMaterial = new THREE.MeshStandardMaterial({
+        map: leafTexture,
+        color: 0xefef13,
+        alphaTest: 0.5,
+        side: THREE.DoubleSide,
+    });
+
+    const endpoints = path.filter(seg => !path.some(other => other.from.equals(seg.to)));
+    const instancedLeaves = new THREE.InstancedMesh(leafGeometry, leafMaterial, endpoints.length);
+    const dummy = new THREE.Object3D();
+
+    
+
+    endpoints.forEach((segment, i) => {
+        const direction = new THREE.Vector3().subVectors(segment.to, segment.from).normalize();
+        const quaternion = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction);
+
+        const offset = direction.clone().multiplyScalar(leafGeometry.parameters.height / 2);
+
+        dummy.position.copy(segment.to).add(offset);
+        dummy.quaternion.copy(quaternion);
+
+        const randomRotation = Math.random() * Math.PI * 2;
+
+        dummy.rotateY(randomRotation);
+
+        dummy.updateMatrix();
+
+        instancedLeaves.setMatrixAt(i, dummy.matrix);
+    });
+
+    instancedLeaves.instanceMatrix.needsUpdate = true;
+    group.add(instancedLeaves);
+
+    return group;
 }
-
-
-
-   // */
