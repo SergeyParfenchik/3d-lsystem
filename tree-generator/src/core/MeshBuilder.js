@@ -107,8 +107,8 @@ export function buildBranches(path) {
     const leafGeometry = new THREE.PlaneGeometry(0.14, 0.2);
     const leafMaterial = new THREE.MeshStandardMaterial({
         map: leafTexture,
-        color: 0xefef13,
-        alphaTest: 0.5,
+        color: 0x66ff11,
+        alphaTest: 0.7,
         side: THREE.DoubleSide,
     });
 

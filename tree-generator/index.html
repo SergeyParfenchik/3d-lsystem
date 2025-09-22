@@ -1,14 +1,100 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tree Generator</title>
-    <link rel="stylesheet" href="/src/style.css" />
-  </head>
-  <body>
-    <h1 class="text-3xl font-bold underline">L-system</h1>
-    <canvas id="scene" height="810px" width="1460px"></canvas>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tree Generator</title>
+        <link rel="stylesheet" href="/src/style.css" />
+    </head>
+    <body>
+
+        <div class="flex h-screen overflow-hidden">
+            <!-- Левая панель -->
+            <!-- В левой панели (замени текущий input rules) -->
+            <aside class="w-1/5 p-4 overflow-y-auto bg-white">
+                <h2 class="text-xl font-semibold mb-4">Глобальные настройки</h2>
+                <div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Правила</label>
+                        <table id="rulesTable" class="w-full mt-1 border-collapse">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="p-2 border">Прототип</th>
+                                    <th class="p-2 border">Преемник</th>
+                                    <th class="p-2 border w-24">Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Строки будут добавляться через JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Аксиома -->
+                    <div class="mb-4">
+                        <label for="start" class="block text-sm font-medium text-gray-700">Старт (аксиома)</label>
+                        <input type="text" id="start" class="mt-1 block w-full border rounded-md p-2" placeholder="F">
+                    </div>
+
+                    <!-- Угол, длина, ширина -->
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label for="angle" class="block text-sm font-medium text-gray-700">Угол (°)</label>
+                            <input type="number" id="angle" class="mt-1 block w-full border rounded-md p-2" placeholder="25" value="25">
+                        </div>
+                        <div>
+                            <label for="iterations" class="block text-sm font-medium text-gray-700">Итерации</label>
+                            <input type="number" id="iterations" class="mt-1 block w-full border rounded-md p-2" placeholder="4" value="4" min="1">
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="length" class="block text-sm font-medium text-gray-700">Длина сегмента</label>
+                        <input type="number" id="length" class="mt-1 block w-full border rounded-md p-2" placeholder="0.5" value="0.5" step="0.1" min="0">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="startWidth" class="block text-sm font-medium text-gray-700">Начальная толщина ветвей</label>
+                        <input 
+                            type="number" 
+                            id="startWidth" 
+                            class="mt-1 block w-full border rounded-md p-2" 
+                            placeholder="0.15" 
+                            step="0.001" 
+                            min="0.0"
+                            value="0.15"
+                        >
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="endWidth" class="block text-sm font-medium text-gray-700">Конечная толщина ветвей</label>
+                        <input 
+                            type="number" 
+                            id="endWidth" 
+                            class="mt-1 block w-full border rounded-md p-2" 
+                            placeholder="0.001" 
+                            step="0.001" 
+                            min="0.001"
+                            value="0.001"
+                        >
+                    </div>
+
+                    <button id="updateBtn" type="button" class="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600">
+                        Обновить
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Центр с канвасом -->
+            <main class="flex-1 bg-white relative overflow-hidden">
+                <!-- Канвас для 3D дерева -->
+                <canvas id="scene" width="1000px" height="1000px" class="border w-full h-full"></canvas>
+            </main>
+
+
+        </div>
+
+
+        <script type="module" src="/src/main.js"></script>
+    </body>
 </html>
